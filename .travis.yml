@@ -1,8 +1,25 @@
 language: java
-jdk: oraclejdk8
+sudo: false
+install: true
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-
+addons:
+  sonarqube:
+    organization: "juncevich-github"
+    token:
+      secure: $SONAR_TOKEN
+script:
+  - sonar-scanner
+jdk:
+  - oraclejdk8
+script:
+  - ./gradlew sonarqube
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    - '$HOME/.gradle'
+    - '.gradle'
 notifications:
     email:
       - a.juncevich@gmail.com
